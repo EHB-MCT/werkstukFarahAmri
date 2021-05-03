@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../werkstuk/front', 'index.html'));
 });
 
+//APP USE
+app.use(express.static(path.join(__dirname, '../werkstuk/front')));  
+app.use('/api', apiRouter);
+
 apiRouter.route('/data')
     .post(async (req, res) => {
         collection = db.collection("villoData");
@@ -57,8 +61,6 @@ apiRouter.route('/data')
             res.json(result);
         });
     });
-
-app.use('/api', apiRouter);
 
 //MONGO DB CONNECTION
 app.listen(port, () => {
