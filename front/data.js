@@ -14,7 +14,7 @@ async function getData(){
 
 //getData();
 
-setInterval(getData, 1800000);
+setInterval(getData, 10000);
 
 async function saveData(data){
     let request = await fetch(apiUrl, {
