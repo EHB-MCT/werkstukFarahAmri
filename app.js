@@ -31,7 +31,8 @@ const apiRouter = express.Router();
 
 //ROOT
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    //res.send('Hello World!');
+    res.sendFile(path.join(__dirname, '../werkstuk/front', 'index.html'));
 });
 
 apiRouter.route('/data')
