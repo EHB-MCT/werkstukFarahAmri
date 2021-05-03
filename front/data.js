@@ -12,9 +12,9 @@ async function getData(){
     saveData(json);
 }
 
-//getData();
+getData();
 
-setInterval(getData, 1800000);
+//setInterval(getData, 1800000);
 
 async function saveData(data){
     let request = await fetch(apiUrl, {
