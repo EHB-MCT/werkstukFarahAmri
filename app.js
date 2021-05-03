@@ -32,7 +32,7 @@ const apiRouter = express.Router();
 //ROOT
 app.get('/', (req, res) => {
     //res.send('Hello World!');
-    res.sendFile(path.join(__dirname, '../front', 'index.html'));
+    res.sendFile(path.join(__dirname, 'front', 'index.html'));
 });
 
 apiRouter.route('/data')
@@ -60,7 +60,7 @@ apiRouter.route('/data')
 
 
 //APP USE
-app.use(express.static(path.join(__dirname, '../front')));  
+app.use(express.static(path.join(__dirname, 'front')));  
 app.use('/api', apiRouter);
 
 //MONGO DB CONNECTION
