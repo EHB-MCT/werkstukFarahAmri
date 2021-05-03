@@ -1,7 +1,7 @@
 "use strict";
 
 const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=c5747f5adf36d81ba83846a75cc1d2d4b4116ab3";
-const apiUrl = "http://localhost:3000/api/data";
+const apiUrl = "https://villodata.herokuapp.com/api/data";
 
 async function getData(){
     console.log("fetching...");
