@@ -8,8 +8,8 @@ async function getData(){
     const response = await fetch(url);
     const json = await response.json();
     //console.log(json.mainStands);
-    renderData(json);
     saveData(json);
+    renderData(json);
 }
 
 //getData();
