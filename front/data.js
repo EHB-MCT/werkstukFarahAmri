@@ -14,7 +14,9 @@ async function getData(){
 
 //getData();
 
-setInterval(getData, 1800000);
+//axios get externe api en dan in de then axios.post naar api url
+
+//setInterval(getData, 1800000);
 
 async function saveData(data){
     let request = await fetch(apiUrl, {
