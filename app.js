@@ -79,7 +79,7 @@ function request() {
         });
 }
 
-setInterval(request, 1800000);
+setInterval(request, 900000);
 
 //APP USE
 app.use(express.static(path.join(__dirname, 'front')));
