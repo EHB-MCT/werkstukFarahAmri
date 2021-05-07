@@ -3,7 +3,7 @@
 //SERVER SET-UP
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
@@ -48,15 +48,6 @@ app.get('/', (req, res) => {
 });
 
 apiRouter.route('/data')
-    .post(async (req, res) => {
-        collection = db.collection("villoData");
-        collection.insertMany(req.body)
-            .then(result => {
-                console.log(result);
-                res.send("data is saved");
-            })
-            .catch(error => console.error(error));
-    })
     .get((req, res) => {
         collection = db.collection("villoData");
         const {
@@ -71,22 +62,24 @@ apiRouter.route('/data')
     });
 
 
-axios.get(url) //functie gewoon axios.get via interval
-    .then(response => {
-        let apiResult = response.data; 
-        //console.log(apiResult);
-        axios.post(apiUrl, {apiResult})
-            .then(response =>{
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    })
-    .catch(error => {
-        console.log(error);
-    });
+function request() {
+    axios.get(url)
+        .then(response => {
+            let apiResult = response.data;
+            console.log(apiResult);
+            collection = db.collection("villoData");
+            collection.insertMany(apiResult)
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => console.error(error));
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
 
+setInterval(request, 1800000);
 
 //APP USE
 app.use(express.static(path.join(__dirname, 'front')));
