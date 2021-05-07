@@ -81,19 +81,20 @@ function request() {
         });
 }
 
-function wake(){
-    try {
-        setInterval(() => {
-            request();
-        }, interval);
-    }
-    catch(err){
-        console.error(err);
-        return setTimeout(() => wake(), 10000);
-    }
-}
 
-wake();
+//immediately invoked function expression
+(function wake() {
+    let handler;
+    try {
+      handler = setInterval(() => {
+        request();
+      }, interval);
+    } catch(err) {
+        console.error(err);
+        clearInterval(handler);
+        return setTimeout(() => wake(), 10000);
+    }  
+  })();
 
 //setInterval(request, 900000);
 
