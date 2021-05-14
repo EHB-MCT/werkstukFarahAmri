@@ -18,7 +18,7 @@ async function getData(){
     //date => javascript date object maken
     //dag van de week, uur (16.35 => 17u)
     //station => station id in het model verwerken 
-     
+
     console.log(data);
 }
 

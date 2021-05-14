@@ -30,16 +30,6 @@ const client = new MongoClient(uri, {
 const databaseName = "data";
 let db, collection;
 
-//MIDDLEWARE
-app.use(cors());
-app.use(express.json({
-    limit: '200mb'
-}));
-app.use(express.urlencoded({
-    limit: '200mb',
-    extended: true
-}));
-
 //ROUTER
 const apiRouter = express.Router();
 
@@ -98,9 +88,20 @@ function request() {
 
 //setInterval(request, 900000);
 
+//MIDDLEWARE
+app.use(cors());
+app.use(express.json({
+    limit: '200mb'
+}));
+app.use(express.urlencoded({
+    limit: '200mb',
+    extended: true
+}));
+
 //APP USE
 app.use(express.static(path.join(__dirname, 'front')));
 app.use('/api', apiRouter);
+
 
 //MONGO DB CONNECTION
 app.listen(port, () => {
