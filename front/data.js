@@ -1,43 +1,50 @@
 "use strict";
 
-const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=c5747f5adf36d81ba83846a75cc1d2d4b4116ab3";
-const apiUrl = "https://villodata.herokuapp.com/api/data";
+const url = "https://villodata.herokuapp.com/api/data";
 
 async function getData(){
     console.log("fetching...");
     const response = await fetch(url);
-    const json = await response.json();
-    //console.log(json.mainStands);
-    saveData(json);
-    renderData(json);
+    const villoData = await response.json();
+    //console.log(villoData);
+    const data = villoData.map(d => {
+      return {
+        latitude: d.position.latitude,
+        longitude: d.position.longitude,
+        bikes: d.mainStands.availabilities.bikes
+      };
+    });
+
+    //date => javascript date object maken
+    //dag van de week, uur (16.35 => 17u)
+    //station => station id in het model verwerken 
+     
+    console.log(data);
 }
 
-//getData();
+getData();
 
-//axios get externe api en dan in de then axios.post naar api url
 
-//setInterval(getData, 1800000);
+// async function saveData(data){
+//     let request = await fetch(apiUrl, {
+//         method: "POST",
+//         body: JSON.stringify(data),
+//         headers: {
+//           "Content-Type": "application/json"
+//         }
+//       });
+//       return await request.json(); 
+// }
 
-async function saveData(data){
-    let request = await fetch(apiUrl, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      return await request.json(); 
-}
+// function renderData(json){
+//     console.log(json);
+//     let placeholder = document.getElementById('data');
+//     let htmlString = "";
 
-function renderData(json){
-    console.log(json);
-    let placeholder = document.getElementById('data');
-    let htmlString = "";
+//     htmlString += JSON.stringify(json);
 
-    htmlString += JSON.stringify(json);
-
-    placeholder.insertAdjacentHTML("afterbegin", htmlString);
-}
+//     placeholder.insertAdjacentHTML("afterbegin", htmlString);
+// }
 
 
 
