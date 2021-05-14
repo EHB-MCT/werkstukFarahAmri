@@ -8,8 +8,6 @@ const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
 
-const interval = 25*60*1000; //25 min
-
 //API urls
 const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=c5747f5adf36d81ba83846a75cc1d2d4b4116ab3";
 const apiUrl = "https://villodata.herokuapp.com/api/data";
@@ -86,7 +84,6 @@ function request() {
 //     }  
 // })();
 
-//setInterval(request, 900000);
 
 //MIDDLEWARE
 app.use(cors());
