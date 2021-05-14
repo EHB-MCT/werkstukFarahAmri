@@ -28,6 +28,17 @@ const client = new MongoClient(uri, {
 const databaseName = "data";
 let db, collection;
 
+//MIDDLEWARE
+app.use(cors());
+app.use(express.json({
+    limit: '200mb'
+}));
+app.use(express.urlencoded({
+    limit: '200mb',
+    extended: true
+}));
+
+
 //ROUTER
 const apiRouter = express.Router();
 
@@ -49,7 +60,7 @@ apiRouter.route('/data')
             }
             res.json(result);
         });
-    });
+});
 
 
 // function request() {
@@ -89,16 +100,6 @@ apiRouter.route('/data')
 app.use(express.static(path.join(__dirname, 'front')));
 app.use('/api', apiRouter);
 
-
-//MIDDLEWARE
-app.use(cors());
-app.use(express.json({
-    limit: '200mb'
-}));
-app.use(express.urlencoded({
-    limit: '200mb',
-    extended: true
-}));
 
 //MONGO DB CONNECTION
 app.listen(port, () => {
