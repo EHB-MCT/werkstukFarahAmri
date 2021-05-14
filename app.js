@@ -52,22 +52,22 @@ apiRouter.route('/data')
     });
 
 
-function request() {
-    axios.get(url)
-        .then(response => {
-            let apiResult = response.data;
-            console.log(apiResult);
-            collection = db.collection("villoData");
-            collection.insertMany(apiResult)
-                .then(result => {
-                    console.log(result);
-                })
-                .catch(error => console.error(error));
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
+// function request() {
+//     axios.get(url)
+//         .then(response => {
+//             let apiResult = response.data;
+//             console.log(apiResult);
+//             collection = db.collection("villoData");
+//             collection.insertMany(apiResult)
+//                 .then(result => {
+//                     console.log(result);
+//                 })
+//                 .catch(error => console.error(error));
+//         })
+//         .catch(error => {
+//             console.error(error);
+//         });
+// }
 
 
 //immediately invoked function expression + needed to do an upgrade to heroku hobby plan
@@ -85,6 +85,11 @@ function request() {
 // })();
 
 
+//APP USE
+app.use(express.static(path.join(__dirname, 'front')));
+app.use('/api', apiRouter);
+
+
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json({
@@ -94,11 +99,6 @@ app.use(express.urlencoded({
     limit: '200mb',
     extended: true
 }));
-
-//APP USE
-app.use(express.static(path.join(__dirname, 'front')));
-app.use('/api', apiRouter);
-
 
 //MONGO DB CONNECTION
 app.listen(port, () => {
