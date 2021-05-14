@@ -73,18 +73,18 @@ function request() {
 
 
 //immediately invoked function expression + needed to do an upgrade to heroku hobby plan
-(function wake() {
-    let handler;
-    try {
-      handler = setInterval(() => {
-        request();
-      }, interval);
-    } catch(err) {
-        console.error(err);
-        clearInterval(handler);
-        return setTimeout(() => wake(), 10000);
-    }  
-})();
+// (function wake() {
+//     let handler;
+//     try {
+//       handler = setInterval(() => {
+//         request();
+//       }, interval);
+//     } catch(err) {
+//         console.error(err);
+//         clearInterval(handler);
+//         return setTimeout(() => wake(), 10000);
+//     }  
+// })();
 
 //setInterval(request, 900000);
 
