@@ -13,6 +13,7 @@ const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=
 const apiUrl = "https://villodata.herokuapp.com/api/data";
 
 //MONGO DB SETUP
+let db;
 const {
     MongoClient,
     ObjectID
@@ -26,7 +27,7 @@ const client = new MongoClient(uri, {
     useUnifiedTopology: true
 });
 const databaseName = "data";
-let db, collection;
+
 
 //MIDDLEWARE
 app.use(cors());
@@ -38,19 +39,18 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-
 //ROUTER
 const apiRouter = express.Router();
 
 //ROOT
 app.get('/', (req, res) => {
     //res.send('Hello World!');
-    res.sendFile(path.join(__dirname, 'front', 'index.html'));
+    res.sendFile(path.join(__dirname, 'front', 'villo.html'));
 });
 
 apiRouter.route('/data')
     .get((req, res) => {
-        collection = db.collection("villoData");
+        let collection = db.collection("villoData");
         const {
             query
         } = req;
@@ -60,6 +60,23 @@ apiRouter.route('/data')
             }
             res.json(result);
         });
+});
+
+//APP USE
+app.use(express.static(path.join(__dirname, 'front')));
+app.use('/api', apiRouter);
+
+
+//MONGO DB CONNECTION
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+    client.connect(err => {
+        if (err) {
+            throw err;
+        }
+        db = client.db(databaseName);
+        console.log("connected");
+    });
 });
 
 
@@ -94,21 +111,3 @@ apiRouter.route('/data')
 //         return setTimeout(() => wake(), 10000);
 //     }  
 // })();
-
-
-//APP USE
-app.use(express.static(path.join(__dirname, 'front')));
-app.use('/api', apiRouter);
-
-
-//MONGO DB CONNECTION
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-    client.connect(err => {
-        if (err) {
-            throw err;
-        }
-        db = client.db(databaseName);
-        console.log("connected");
-    });
-});

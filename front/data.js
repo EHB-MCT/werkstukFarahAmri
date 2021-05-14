@@ -1,6 +1,6 @@
 "use strict";
 
-const url = "https://villodata.herokuapp.com/api/data";
+const url = "http://localhost:8000/api/data";
 
 async function getData(){
     console.log("fetching...");
@@ -8,9 +8,23 @@ async function getData(){
     const villoData = await response.json();
     //console.log(villoData);
     const data = villoData.map(d => {
+      let weekdagen = ['Maandag', 'Dinsdag','Woensdag','Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
+      const date = new Date(d.lastUpdate);
+      const year = date.getFullYear();
+      const weekdag = weekdagen[date.getDay()];
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+
+      const hours = date.getHours();
+      let minutes = ('0'+ date.getMinutes()).slice(-2);
+
+      const fullDate = `${weekdag}, ${day}/${month}/${year}`;
+      const fullTime = `${hours}:${minutes}`;
+
       return {
-        latitude: d.position.latitude,
-        longitude: d.position.longitude,
+        number: d.number,
+        date: fullDate,
+        hour: fullTime,
         bikes: d.mainStands.availabilities.bikes
       };
     });
