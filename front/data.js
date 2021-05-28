@@ -6,7 +6,7 @@ async function getData(){
     console.log("fetching...");
     const response = await fetch(url);
     const villoData = await response.json();
-    const data = villoData.map(d => {
+    let data = villoData.map(d => {
       let weekdagen = ['Maandag', 'Dinsdag','Woensdag','Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
       const date = new Date(d.lastUpdate);
       const year = date.getFullYear();
@@ -28,12 +28,12 @@ async function getData(){
       };
     });
 
+    data = JSON.stringify(data);
+
     console.log(data);
 }
 
 getData();
-
-
 
 
 // FUCTIONS FOR DATA COLLECTING
