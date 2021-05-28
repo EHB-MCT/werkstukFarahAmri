@@ -6,7 +6,6 @@ async function getData(){
     console.log("fetching...");
     const response = await fetch(url);
     const villoData = await response.json();
-    //console.log(villoData);
     const data = villoData.map(d => {
       let weekdagen = ['Maandag', 'Dinsdag','Woensdag','Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
       const date = new Date(d.lastUpdate);
@@ -29,15 +28,13 @@ async function getData(){
       };
     });
 
-    //date => javascript date object maken
-    //dag van de week, uur (16.35 => 17u)
-    //station => station id in het model verwerken 
-
-    console.log(data);
+    JSON.stringify(data);
 }
 
-getData();
+export {getData};
 
+
+// FUCTIONS FOR DATA COLLECTING
 
 // async function saveData(data){
 //     let request = await fetch(apiUrl, {

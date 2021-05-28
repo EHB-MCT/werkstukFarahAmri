@@ -6,11 +6,13 @@ const app = express();
 const port = process.env.PORT || 8000;
 const cors = require('cors');
 const path = require('path');
-const axios = require('axios');
+//const axios = require('axios');
+const fs = require('fs');
+const fetch = require('node-fetch');
 
 //API urls
 const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=c5747f5adf36d81ba83846a75cc1d2d4b4116ab3";
-const apiUrl = "https://villodata.herokuapp.com/api/data";
+const apiUrl = "http://localhost:8000/api/data";
 
 //MONGO DB SETUP
 let db;
@@ -27,6 +29,7 @@ const client = new MongoClient(uri, {
     useUnifiedTopology: true
 });
 const databaseName = "data";
+let collection;
 
 
 //MIDDLEWARE
@@ -50,17 +53,18 @@ app.get('/', (req, res) => {
 
 apiRouter.route('/data')
     .get((req, res) => {
-        let collection = db.collection("villoData");
+        collection = db.collection("villoData");
         const {
             query
         } = req;
-        collection.find(query).toArray((err, result) => {
+        collection.find(query).toArray(function (err, result) {
             if (err) {
                 return res.send(err);
             }
             res.json(result);
         });
-});
+    });
+
 
 //APP USE
 app.use(express.static(path.join(__dirname, 'front')));
@@ -78,6 +82,7 @@ app.listen(port, () => {
         console.log("connected");
     });
 });
+
 
 
 // function request() {
