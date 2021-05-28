@@ -7,8 +7,6 @@ const port = process.env.PORT || 8000;
 const cors = require('cors');
 const path = require('path');
 //const axios = require('axios');
-const fs = require('fs');
-const fetch = require('node-fetch');
 
 //API urls
 const url = "https://api.jcdecaux.com/vls/v3/stations?contract=Bruxelles&apiKey=c5747f5adf36d81ba83846a75cc1d2d4b4116ab3";
@@ -82,7 +80,6 @@ app.listen(port, () => {
         console.log("connected");
     });
 });
-
 
 
 // function request() {

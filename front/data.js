@@ -28,10 +28,12 @@ async function getData(){
       };
     });
 
-    JSON.stringify(data);
+    console.log(data);
 }
 
-export {getData};
+getData();
+
+
 
 
 // FUCTIONS FOR DATA COLLECTING
@@ -56,9 +58,3 @@ export {getData};
 
 //     placeholder.insertAdjacentHTML("afterbegin", htmlString);
 // }
-
-
-
-
-
-
