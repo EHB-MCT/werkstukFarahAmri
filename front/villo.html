@@ -13,35 +13,34 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-    <!-- TENSORFLOW -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+    <!-- ML5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
     <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
     <title>Villo</title>
 </head>
 
 <body>
     <div>
         <h1>Villo fietsplanner</h1>
-        <h3>Een applicatie die voorspelt met behulp van AI hoeveel fietsen er zullen beschikbaar zijn op een bepaalde
-            dag en tijdstip!</h3>
+        <h3>Een applicatie die voorspelt met behulp van AI hoeveel fietsen er zullen beschikbaar zijn op basis van
+            station en dag!</h3>
     </div>
 
     <div>
-        <form action="submit">
+        <form id="form">
             <label for="kalender">kies je datum</label>
-            <input type="date">
-            <label for="kalender">kies het uur</label>
-            <input type="time">
+            <input type="date" id="mydate">
+            <label for="appt">Kies je tijdstip</label>
+            <input type="time" id="mytime" name="mytime" required>
             <label for="station">Zoek station</label>
-            <input type="text">
+            <input type="text" id="mystation">
             <button type="submit">zoeken</button>
         </form>
     </div>
 
-    <div id="mapid"></div>
+    <div id="result"></div>
 
     <script type="module" src="data.js"></script>
 </body>
