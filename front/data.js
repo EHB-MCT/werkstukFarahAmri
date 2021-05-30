@@ -25,12 +25,14 @@ async function getData() {
       bikes: d.mainStands.availabilities.bikes,
       number: d.number,
       day: weekdag,
+      hour: hours,
+      minutes: minutesInt,
       date: fullDate,
       fulltime: fullTime
     };
-  });
+  }).filter(bike => bike.number < 500);
 
-  data = JSON.stringify(data);
+  //data = JSON.stringify(data);
   
   console.log(data);
   
@@ -38,175 +40,175 @@ async function getData() {
   
 }
 
-getData();
+//getData();
 
-// async function run() {
-//   // Load and plot the original input data that we are going to train on.
-//   const json = await getData();
-//   const values = json.map(d => ({
-//     x: d.number,
-//     y: d.bikes,
-//   }));
+async function run() {
+  // Load and plot the original input data that we are going to train on.
+  const json = await getData();
+  const values = json.map(d => ({
+    x: d.number,
+    y: d.bikes,
+  }));
 
-//   tfvis.render.scatterplot({
-//     name: 'station v bikes'
-//   }, {
-//     values
-//   }, {
-//     xLabel: 'station',
-//     yLabel: 'bikes',
-//     height: 300
-//   });
+  tfvis.render.scatterplot({
+    name: 'number v bikes'
+  }, {
+    values
+  }, {
+    xLabel: 'number',
+    yLabel: 'bikes',
+    height: 300
+  });
 
-//   const model = createModel();
-//   tfvis.show.modelSummary({
-//     name: 'Model Summary'
-//   }, model);
+  const model = createModel();
+  tfvis.show.modelSummary({
+    name: 'Model Summary'
+  }, model);
 
-//   // Convert the data to a form we can use for training.
-//   const tensorData = convertToTensor(json);
-//   const {
-//     inputs,
-//     labels
-//   } = tensorData;
+  // Convert the data to a form we can use for training.
+  const tensorData = convertToTensor(json);
+  const {
+    inputs,
+    labels
+  } = tensorData;
 
-//   // Train the model
-//   await trainModel(model, inputs, labels);
-//   console.log('Done Training');
-//   // More code will be added below
-//   testModel(model, json, tensorData);
+  // Train the model
+  await trainModel(model, inputs, labels);
+  console.log('Done Training');
+  // More code will be added below
+  testModel(model, json, tensorData);
   
-//   //const saveResult = await model.save('localstorage://my-model-1');
+  //const saveResult = await model.save('localstorage://my-model-1');
 
-// }
+}
 
-// document.addEventListener('DOMContentLoaded', run);
+document.addEventListener('DOMContentLoaded', run);
 
-// function createModel() {
-//   // Create a sequential model
-//   const model = tf.sequential();
+function createModel() {
+  // Create a sequential model
+  const model = tf.sequential();
 
-//   // Add a single input layer
-//   model.add(tf.layers.dense({
-//     inputShape: [1],
-//     units: 1,
-//     useBias: true
-//   }));
+  // Add a single input layer
+  model.add(tf.layers.dense({
+    inputShape: [1],
+    units: 1,
+    useBias: true
+  }));
 
-//   // Add an output layer
-//   model.add(tf.layers.dense({
-//     units: 1,
-//     useBias: true
-//   }));
+  // Add an output layer
+  model.add(tf.layers.dense({
+    units: 1,
+    useBias: true
+  }));
 
-//   return model;
-// }
+  return model;
+}
 
-// function convertToTensor(data) {
-//   // Wrapping these calculations in a tidy will dispose any
-//   // intermediate tensors.
+function convertToTensor(data) {
+  // Wrapping these calculations in a tidy will dispose any
+  // intermediate tensors.
 
-//   return tf.tidy(() => {
-//     // Step 1. Shuffle the data
-//     tf.util.shuffle(data);
+  return tf.tidy(() => {
+    // Step 1. Shuffle the data
+    tf.util.shuffle(data);
 
-//     // Step 2. Convert data to Tensor
-//     const inputs = data.map(d => d.number);
-//     const labels = data.map(d => d.bikes);
+    // Step 2. Convert data to Tensor
+    const inputs = data.map(d => d.number);
+    const labels = data.map(d => d.bikes);
 
-//     const inputTensor = tf.tensor2d(inputs, [inputs.length, 1]);
-//     const labelTensor = tf.tensor2d(labels, [labels.length, 1]);
+    const inputTensor = tf.tensor2d(inputs, [inputs.length, 1]);
+    const labelTensor = tf.tensor2d(labels, [labels.length, 1]);
 
-//     //Step 3. Normalize the data to the range 0 - 1 using min-max scaling
-//     const inputMax = inputTensor.max();
-//     const inputMin = inputTensor.min();
-//     const labelMax = labelTensor.max();
-//     const labelMin = labelTensor.min();
+    //Step 3. Normalize the data to the range 0 - 1 using min-max scaling
+    const inputMax = inputTensor.max();
+    const inputMin = inputTensor.min();
+    const labelMax = labelTensor.max();
+    const labelMin = labelTensor.min();
 
-//     const normalizedInputs = inputTensor.sub(inputMin).div(inputMax.sub(inputMin));
-//     const normalizedLabels = labelTensor.sub(labelMin).div(labelMax.sub(labelMin));
+    const normalizedInputs = inputTensor.sub(inputMin).div(inputMax.sub(inputMin));
+    const normalizedLabels = labelTensor.sub(labelMin).div(labelMax.sub(labelMin));
 
-//     return {
-//       inputs: normalizedInputs,
-//       labels: normalizedLabels,
-//       // Return the min/max bounds so we can use them later.
-//       inputMax,
-//       inputMin,
-//       labelMax,
-//       labelMin,
-//     };
-//   });
-// }
+    return {
+      inputs: normalizedInputs,
+      labels: normalizedLabels,
+      // Return the min/max bounds so we can use them later.
+      inputMax,
+      inputMin,
+      labelMax,
+      labelMin,
+    };
+  });
+}
 
-// async function trainModel(model, inputs, labels) {
-//   // Prepare the model for training.
-//   model.compile({
-//     optimizer: tf.train.adam(),
-//     loss: tf.losses.meanSquaredError,
-//     metrics: ['mse'],
-//   });
+async function trainModel(model, inputs, labels) {
+  // Prepare the model for training.
+  model.compile({
+    optimizer: tf.train.adam(),
+    loss: tf.losses.meanSquaredError,
+    metrics: ['mse'],
+  });
 
-//   const batchSize = 24;
-//   const epochs = 32;
+  const batchSize = 24;
+  const epochs = 32;
 
-//   return await model.fit(inputs, labels, {
-//     batchSize,
-//     epochs,
-//     shuffle: true,
-//     callbacks: tfvis.show.fitCallbacks({
-//         name: 'Training Performance'
-//       },
-//       ['loss', 'mse'], {
-//         height: 200,
-//         callbacks: ['onEpochEnd']
-//       }
-//     )
-//   });
-// }
+  return await model.fit(inputs, labels, {
+    batchSize,
+    epochs,
+    shuffle: true,
+    callbacks: tfvis.show.fitCallbacks({
+        name: 'Training Performance'
+      },
+      ['loss', 'mse'], {
+        height: 200,
+        callbacks: ['onEpochEnd']
+      }
+    )
+  });
+}
 
-// function testModel(model, inputData, normalizationData) {
-//   const {inputMax, inputMin, labelMin, labelMax} = normalizationData;
+function testModel(model, inputData, normalizationData) {
+  const {inputMax, inputMin, labelMin, labelMax} = normalizationData;
 
-//   // Generate predictions for a uniform range of numbers between 0 and 1;
-//   // We un-normalize the data by doing the inverse of the min-max scaling
-//   // that we did earlier.
-//   const [xs, preds] = tf.tidy(() => {
+  // Generate predictions for a uniform range of numbers between 0 and 1;
+  // We un-normalize the data by doing the inverse of the min-max scaling
+  // that we did earlier.
+  const [xs, preds] = tf.tidy(() => {
 
-//     const xs = tf.linspace(0, 1, 100);
-//     const preds = model.predict(xs.reshape([100, 1]));
+    const xs = tf.linspace(0, 1, 100);
+    const preds = model.predict(xs.reshape([100, 1]));
 
-//     const unNormXs = xs
-//       .mul(inputMax.sub(inputMin))
-//       .add(inputMin);
+    const unNormXs = xs
+      .mul(inputMax.sub(inputMin))
+      .add(inputMin);
 
-//     const unNormPreds = preds
-//       .mul(labelMax.sub(labelMin))
-//       .add(labelMin);
+    const unNormPreds = preds
+      .mul(labelMax.sub(labelMin))
+      .add(labelMin);
 
-//     // Un-normalize the data
-//     return [unNormXs.dataSync(), unNormPreds.dataSync()];
-//   });
-
-
-//   const predictedPoints = Array.from(xs).map((val, i) => {
-//     return {x: val, y: preds[i]};
-//   });
-
-//   const originalPoints = inputData.map(d => ({
-//     x: d.number, y: d.bikes,
-//   }));
+    // Un-normalize the data
+    return [unNormXs.dataSync(), unNormPreds.dataSync()];
+  });
 
 
-//   tfvis.render.scatterplot(
-//     {name: 'Model Predictions vs Original Data'},
-//     {values: [originalPoints, predictedPoints], series: ['original', 'predicted']},
-//     {
-//       xLabel: 'station',
-//       yLabel: 'bikes',
-//       height: 300
-//     }
-//   );
-// }
+  const predictedPoints = Array.from(xs).map((val, i) => {
+    return {x: val, y: preds[i]};
+  });
+
+  const originalPoints = inputData.map(d => ({
+    x: d.number, y: d.bikes,
+  }));
+
+
+  tfvis.render.scatterplot(
+    {name: 'Model Predictions vs Original Data'},
+    {values: [originalPoints, predictedPoints], series: ['original', 'predicted']},
+    {
+      xLabel: 'number',
+      yLabel: 'bikes',
+      height: 300
+    }
+  );
+}
 
 
 // FUCTIONS FOR DATA COLLECTING
