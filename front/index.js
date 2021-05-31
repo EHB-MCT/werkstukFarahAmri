@@ -63,11 +63,11 @@ function doneTraining() {
         if (err) {
             console.error(err);
         }
-        let showOnHtml = document.getElementById('result');
+        //let showOnHtml = document.getElementById('result');
 
 
         result.map(el => {
-            showOnHtml.innerText = el.bikes;
+            //showOnHtml.innerText = el.bikes;
             getLatAndLong(el.bikes);
         });
 

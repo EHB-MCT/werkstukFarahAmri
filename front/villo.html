@@ -6,44 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheet.css">
-    
+
     <!-- LEAFLET -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin=""/>
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
 
     <!-- ML5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
     <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
 
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
     <title>Villo</title>
 </head>
 
 <body>
-    <div>
-        <h1>Villo fietsplanner</h1>
-        <h3>Een applicatie die voorspelt met behulp van AI hoeveel fietsen er zullen beschikbaar zijn op basis van
-            station en dag!</h3>
+    <div class="header">
+        <h1>Villo Fietsplanner Prototype</h1>
     </div>
 
-    <div>
-        <form id="form">
-            <label for="kalender">kies je datum</label>
-            <input type="date" id="mydate">
-            <label for="appt">Kies je tijdstip</label>
-            <input type="time" id="mytime" name="mytime" required>
-            <label for="station">Zoek station</label>
-            <select id="mystation" name="station"></select>
-            <button type="submit">zoeken</button>
-        </form>
-    </div>
+    <div class="main">
+        <h2>Farah Amri - 2BaMCT B</h2>
+        <p>Een applicatie die voorspelt met behulp van AI hoeveel fietsen er zullen beschikbaar zijn op basis van
+                station, dag en uur!<p>
 
-    <div id="result"></div>
-    <div id="mapid"></div>
+        <div class="parent">
+            <form id="form">
+                <label for="kalender">kies je datum</label> <br>
+                <input type="date" id="mydate" required> <br>
+                <label for="appt">Kies je tijdstip</label> <br>
+                <input type="time" id="mytime" name="mytime" required> <br>
+                <label for="station">Zoek station</label> <br>
+                <select id="mystation" name="station" required></select> <br>
+                <button type="submit">zoeken</button>
+            </form>
+
+            <!-- <div id="result"></div> -->
+            <div id="mapid"></div>
+
+        </div>
+    </div>
 
     <script type="module" src="index.js"></script>
 </body>
